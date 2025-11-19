@@ -157,10 +157,22 @@ const getUserById = (req, res) => {
   );
 };
 
+const getUsers=(req,res)=>{
+  const query="SELECT * FROM users";
+  connection.query(query,(err,result)=>{
+    if (err) {
+      return res.status(500)
+    } else {
+      return res.json(result)
+    }
+  })
+}
+
 module.exports = {
   login,
   refreshToken,
   updateActivity,
   logout,
-  getUserById
+  getUserById,
+  getUsers
 };

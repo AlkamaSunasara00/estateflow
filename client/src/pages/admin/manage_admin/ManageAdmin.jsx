@@ -12,9 +12,26 @@ import { IoPencil } from "react-icons/io5";
 import Sidebar from "../layout/Sidebar";
 import Navbar from "../layout/Navbar";
 import Breadcrumb from "../layout/Breadcrumb";
+import api from "../../../api/axiosInstance";
+import { useEffect } from "react";
 
 const ManageAdmin = () => {
   const [activeTab, setActiveTab] = useState("All");
+  const [users, setUsers] = useState([]);
+
+  const fetchUsers = async () => {
+    try {
+      const res = await api.get("getUsers");
+      setUsers(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchUsers()
+  }, [])
+
   return (
     <>
       <Sidebar />
@@ -56,247 +73,33 @@ const ManageAdmin = () => {
                 <th style={{ width: "25%" }}>Name</th>
                 <th style={{ width: "16%" }}>Email</th>
                 <th style={{ width: "15%" }}>Phone No</th>
-                <th style={{ width: "11%" }}>DOB</th>
+                <th style={{ width: "11%" }}>Role</th>
                 <th style={{ width: "10%" }}>Status</th>
                 <th style={{ width: "11%" }}>Added</th>
                 <th style={{ width: "12%" }}>Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="product-info admin-profile">
-                  <img src={AdminProfile} alt="profile_image" />
-                  <span>John Doe</span>
-                </td>
-                <td>johndoe@gmail.com</td>
-                <td>+917034983827</td>
-                <td>24 Aug 1998</td>
-                <td>
-                  <span className="status published">Active</span>
-                </td>
-                <td>24 Jun 2023</td>
-                <td className="actions">
-                  <IoPencil />
-                  <IoIosEye />
-                  <MdDeleteForever />
-                </td>
-              </tr>
-              <tr>
-                <td className="product-info">
-                  <img src={AdminProfile} alt="profile_image" />
-                  <span>John Doe</span>
-                </td>
-                <td>johndoe@gmail.com</td>
-                <td>+917034983827</td>
-                <td>24 Aug 1998</td>
-                <td>
-                  <span className="status published">Active</span>
-                </td>
-                <td>24 Jun 2023</td>
-                <td className="actions">
-                  <IoPencil />
-                  <IoIosEye />
-                  <MdDeleteForever />
-                </td>
-              </tr>
-              <tr>
-                <td className="product-info">
-                  <img src={AdminProfile} alt="profile_image" />
-                  <span>John Doe</span>
-                </td>
-                <td>johndoe@gmail.com</td>
-                <td>+917034983827</td>
-                <td>24 Aug 1998</td>
-                <td>
-                  <span className="status out-of-stock">Blocked</span>
-                </td>
-                <td>24 Jun 2023</td>
-                <td className="actions">
-                  <IoPencil />
-                  <IoIosEye />
-                  <MdDeleteForever />
-                </td>
-              </tr>
-              <tr>
-                <td className="product-info">
-                  <img src={AdminProfile} alt="profile_image" />
-                  <span>John Doe</span>
-                </td>
-                <td>johndoe@gmail.com</td>
-                <td>+917034983827</td>
-                <td>24 Aug 1998</td>
-                <td>
-                  <span className="status published">Active</span>
-                </td>
-                <td>24 Jun 2023</td>
-                <td className="actions">
-                  <IoPencil />
-                  <IoIosEye />
-                  <MdDeleteForever />
-                </td>
-              </tr>
-              <tr>
-                <td className="product-info">
-                  <img src={AdminProfile} alt="profile_image" />
-                  <span>John Doe</span>
-                </td>
-                <td>johndoe@gmail.com</td>
-                <td>+917034983827</td>
-                <td>24 Aug 1998</td>
-                <td>
-                  <span className="status published">Active</span>
-                </td>
-                <td>24 Jun 2023</td>
-                <td className="actions">
-                  <IoPencil />
-                  <IoIosEye />
-                  <MdDeleteForever />
-                </td>
-              </tr>
-              <tr>
-                <td className="product-info">
-                  <img src={AdminProfile} alt="profile_image" />
-                  <span>John Doe</span>
-                </td>
-                <td>johndoe@gmail.com</td>
-                <td>+917034983827</td>
-                <td>24 Aug 1998</td>
-                <td>
-                  <span className="status published">Active</span>
-                </td>
-                <td>24 Jun 2023</td>
-                <td className="actions">
-                  <IoPencil />
-                  <IoIosEye />
-                  <MdDeleteForever />
-                </td>
-              </tr>
-              <tr>
-                <td className="product-info">
-                  <img src={AdminProfile} alt="profile_image" />
-                  <span>John Doe</span>
-                </td>
-                <td>johndoe@gmail.com</td>
-                <td>+917034983827</td>
-                <td>24 Aug 1998</td>
-                <td>
-                  <span className="status out-of-stock">Blocked</span>
-                </td>
-                <td>24 Jun 2023</td>
-                <td className="actions">
-                  <IoPencil />
-                  <IoIosEye />
-                  <MdDeleteForever />
-                </td>
-              </tr>
-              <tr>
-                <td className="product-info">
-                  <img src={AdminProfile} alt="profile_image" />
-                  <span>John Doe</span>
-                </td>
-                <td>johndoe@gmail.com</td>
-                <td>+917034983827</td>
-                <td>24 Aug 1998</td>
-                <td>
-                  <span className="status published">Active</span>
-                </td>
-                <td>24 Jun 2023</td>
-                <td className="actions">
-                  <IoPencil />
-                  <IoIosEye />
-                  <MdDeleteForever />
-                </td>
-              </tr>
-              <tr>
-                <td className="product-info">
-                  <img src={AdminProfile} alt="profile_image" />
-                  <span>John Doe</span>
-                </td>
-                <td>johndoe@gmail.com</td>
-                <td>+917034983827</td>
-                <td>24 Aug 1998</td>
-                <td>
-                  <span className="status published">Active</span>
-                </td>
-                <td>24 Jun 2023</td>
-                <td className="actions">
-                  <IoPencil />
-                  <IoIosEye />
-                  <MdDeleteForever />
-                </td>
-              </tr>
-              <tr>
-                <td className="product-info">
-                  <img src={AdminProfile} alt="profile_image" />
-                  <span>John Doe</span>
-                </td>
-                <td>johndoe@gmail.com</td>
-                <td>+917034983827</td>
-                <td>24 Aug 1998</td>
-                <td>
-                  <span className="status published">Active</span>
-                </td>
-                <td>24 Jun 2023</td>
-                <td className="actions">
-                  <IoPencil />
-                  <IoIosEye />
-                  <MdDeleteForever />
-                </td>
-              </tr>
-              <tr>
-                <td className="product-info">
-                  <img src={AdminProfile} alt="profile_image" />
-                  <span>John Doe</span>
-                </td>
-                <td>johndoe@gmail.com</td>
-                <td>+917034983827</td>
-                <td>24 Aug 1998</td>
-                <td>
-                  <span className="status out-of-stock">Blocked</span>
-                </td>
-                <td>24 Jun 2023</td>
-                <td className="actions">
-                  <IoPencil />
-                  <IoIosEye />
-                  <MdDeleteForever />
-                </td>
-              </tr>
-              <tr>
-                <td className="product-info">
-                  <img src={AdminProfile} alt="profile_image" />
-                  <span>John Doe</span>
-                </td>
-                <td>johndoe@gmail.com</td>
-                <td>+917034983827</td>
-                <td>24 Aug 1998</td>
-                <td>
-                  <span className="status published">Active</span>
-                </td>
-                <td>24 Jun 2023</td>
-                <td className="actions">
-                  <IoPencil />
-                  <IoIosEye />
-                  <MdDeleteForever />
-                </td>
-              </tr>
-              <tr>
-                <td className="product-info">
-                  <img src={AdminProfile} alt="profile_image" />
-                  <span>John Doe</span>
-                </td>
-                <td>johndoe@gmail.com</td>
-                <td>+917034983827</td>
-                <td>24 Aug 1998</td>
-                <td>
-                  <span className="status published">Active</span>
-                </td>
-                <td>28 Jun 2023</td>
-                <td className="actions">
-                  <IoPencil />
-                  <IoIosEye />
-                  <MdDeleteForever />
-                </td>
-              </tr>
+              {users.map((user, id) => (
+                <tr key={id}>
+                  <td className="product-info admin-profile">
+                    <img src={`/uploads/${user.img}`} alt="profile_image" />
+                    <span>{user.name}</span>
+                  </td>
+                  <td>{user.email}</td>
+                  <td>{user.number}</td>
+                  <td>{user.role}</td>
+                  <td>
+                    <span className="status published">{user.status}</span>
+                  </td>
+                  <td>{new Date(user.created_at).toLocaleDateString('en-GB')}</td>
+                  <td className="actions">
+                    <IoPencil />
+                    <IoIosEye />
+                    <MdDeleteForever />
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
 

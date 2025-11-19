@@ -8,5 +8,6 @@ router.post('/refresh-token', verifyToken, login.refreshToken);
 router.post('/update-activity', verifyToken, login.updateActivity);
 router.post('/logout', verifyToken, login.logout);
 router.get('/getuserbyid/:id', verifyToken, login.getUserById);
+router.get('/getUsers/', verifyToken, login.getUsers);
 
 module.exports = router;
