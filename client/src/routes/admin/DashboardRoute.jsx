@@ -20,6 +20,7 @@ import GetEntries from "../../pages/admin/inventory/GetEntries";
 import AddEntry from "../../pages/admin/inventory/AddEntry";
 import UpdateEntry from "../../pages/admin/inventory/UpdateEntry";
 import EditUser from "../../pages/admin/manage_user/EditUser";
+import "../../assets/css/admin/product.css"
 
 const AppRoutes = () => {
 
@@ -46,7 +47,6 @@ const AppRoutes = () => {
         <Route path="manage-admins" element={<ManageUser />} />
         <Route path="add-new_admin" element={<AddNewUser />} />
         <Route path="edituser" element={<EditUser />} />
-        <Route path="add-product" element={<AddProduct />} />
         <Route path="add-category" element={<AddCategory />} />
         <Route path="create-coupon" element={<CreateCoupon />} />
         <Route path="addproperty" element={<AddProperty />} />
