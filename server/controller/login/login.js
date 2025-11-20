@@ -291,8 +291,11 @@ const trahClient = (req, res) => {
   const { status } = req.body;
 
   connection.query("UPDATE users SET status =? WHERE id =? ", [status, id], (err, result) => {
-    if (err) return res.status(500).json({ error: "DB Error" });
-    res.json(result);
+    if (err) {
+      return res.status(500);
+    } else {
+      return res.json(result)
+    }
   });
 };
 

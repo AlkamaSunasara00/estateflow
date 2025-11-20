@@ -7,6 +7,7 @@ import { MdDeleteForever } from "react-icons/md";
 import api from "../../../api/axiosInstance";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaRegEye } from "react-icons/fa";
+import { TbTrashOff } from "react-icons/tb";
 
 const ManageUser = () => {
   const [activeTab, setActiveTab] = useState("All");
@@ -18,41 +19,58 @@ const ManageUser = () => {
     try {
       const res = await api.get("/getUsers");
       setUsers(res.data);
+      console.log(res.data)
     } catch (error) {
       console.error(error);
     }
   };
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
+
 
   // FILTER USERS
- const filteredUsers = users.filter((u) =>
-  activeTab === "All"
-    ? u.status !== "trash"
-    : u.status === "trash"
-);
+  const filteredUsers = users.filter((u) =>
+    activeTab === "All"
+      ? u.status !== "trash"
+      : u.status === "trash"
+  );
 
 
-  // MOVE TO TRASH (simple, clean)
   const trashUser = async (id) => {
     try {
       await api.put(`/trash-client/${id}`, { status: "trash" });
 
-      // update UI instantly
       setUsers((prev) =>
         prev.map((u) =>
           u.id === id ? { ...u, trash: "trash" } : u
         )
       );
-
+      fetchUsers();
       alert("User moved to trash");
     } catch (error) {
       console.error(error);
       alert("Failed to delete");
     }
   };
+  const UntTrashUser = async (id) => {
+    try {
+      await api.put(`/trash-client/${id}`, { status: "active" });
+
+      setUsers((prev) =>
+        prev.map((u) =>
+          u.id === id ? { ...u, trash: "active" } : u
+        )
+      );
+      fetchUsers();
+      alert("User restore from trash");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to restore from trash");
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   return (
     <>
@@ -69,18 +87,16 @@ const ManageUser = () => {
         {/* TABS */}
         <div className="admin-panel-header-tabs">
           <button
-            className={`admin-panel-header-tab ${
-              activeTab === "All" ? "active" : ""
-            }`}
+            className={`admin-panel-header-tab ${activeTab === "All" ? "active" : ""
+              }`}
             onClick={() => setActiveTab("All")}
           >
             All
           </button>
 
           <button
-            className={`admin-panel-header-tab ${
-              activeTab === "Trash" ? "active" : ""
-            }`}
+            className={`admin-panel-header-tab ${activeTab === "Trash" ? "active" : ""
+              }`}
             onClick={() => setActiveTab("Trash")}
           >
             Trash
@@ -114,38 +130,48 @@ const ManageUser = () => {
 
                     <td>
                       <span
-                        className={`status ${
-                          user.status === "active"
-                            ? "published"
-                            : "out-of-stock"
-                        }`}
+                        className={`status ${user.status === "active"
+                          ? "published"
+                          : "out-of-stock"
+                          }`}
                       >
                         {user.status}
                       </span>
                     </td>
 
                     <td>{new Date(user.created_at).toLocaleDateString()}</td>
+                    {user.status === "active" || user.status === "block" ? (
+                      <td className="actions">
+                        <FaRegEye
+                          onClick={() => navigate(`/admin/viewuser/${user.id}`)}
+                          style={{ cursor: "pointer", marginRight: 10 }}
+                        />
 
-                    <td className="actions">
-                      <FaRegEye
-                        onClick={() => navigate(`/admin/viewuser/${user.id}`)}
-                        style={{ cursor: "pointer", marginRight: 10 }}
-                      />
+                        <NavLink
+                          to="/admin/edituser"
+                          onClick={() =>
+                            localStorage.setItem("editUserId", user.id)
+                          }
+                        >
+                          <IoPencil />
+                        </NavLink>
 
-                      <NavLink
-                        to="/admin/edituser"
-                        onClick={() =>
-                          localStorage.setItem("editUserId", user.id)
-                        }
-                      >
-                        <IoPencil />
-                      </NavLink>
+                        <MdDeleteForever
+                          onClick={() => trashUser(user.id)}
+                          style={{ cursor: "pointer", marginLeft: 10 }}
+                        />
+                      </td>
+                    ) : (
+                      <td className="actions">
+                        <TbTrashOff onClick={()=> UntTrashUser(user.id)}/>
 
-                      <MdDeleteForever
-                        onClick={() => trashUser(user.id)}
-                        style={{ cursor: "pointer", marginLeft: 10 }}
-                      />
-                    </td>
+                        <MdDeleteForever
+                          style={{ cursor: "pointer", marginLeft: 10 }}
+                        />
+                      </td>
+
+                    )}
+
                   </tr>
                 ))
               ) : (
